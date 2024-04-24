@@ -30,7 +30,6 @@ import javax.annotation.Resource;
 @Slf4j
 class PointPayOrderServiceImplTest {
 
-    private static final Logger log = LoggerFactory.getLogger(PointPayOrderServiceImplTest.class);
     @Resource
     private PointPayOrderService pointPayOrderService;
 

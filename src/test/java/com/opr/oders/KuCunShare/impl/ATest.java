@@ -33,7 +33,6 @@ import java.util.Map;
 @Slf4j
 public class ATest {
 
-    private static final Logger log = LogManager.getLogger(ATest.class);
 
     @Test()
     /*获取书本接口测试用例*/

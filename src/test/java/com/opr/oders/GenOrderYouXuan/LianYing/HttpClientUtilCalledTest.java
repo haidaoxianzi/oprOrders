@@ -19,7 +19,6 @@ import java.io.IOException;
 @Slf4j
 @SpringBootTest
 public class HttpClientUtilCalledTest {
-    private static final Logger log = LoggerFactory.getLogger(HttpClientUtilCalledTest.class);
 
     @Resource
     QueryOrderDetailService queryOrderDetailService;

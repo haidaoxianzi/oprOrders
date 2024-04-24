@@ -21,7 +21,6 @@ import java.util.Map;
 @SpringBootTest
 @Slf4j
 public class otherDemoTest {
-    private static final Logger log = LogManager.getLogger(otherDemoTest.class);
 
 
 }
