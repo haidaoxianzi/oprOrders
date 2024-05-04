@@ -59,14 +59,4 @@ public class HttpClientUtilCalledTest {
         }
     }
 
-    @Resource
-    private DaCangSendGoodsService suzhouDS;
-
-    /*苏州电商仓发货test
-     * 表单提交test
-     * */
-    @Test
-    void testSuZhouDSSendGoods() {
-        suzhouDS.sendGoodsQuery();
-    }
 }

@@ -27,7 +27,7 @@ public class HttpClientUtil {
     /**
      * post请求
      * 内容类型为json【Content-type：application/json】
-     * */
+     */
     public static JSONObject post(String url, String json, String cookie, String token) throws IOException {
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()
@@ -47,10 +47,11 @@ public class HttpClientUtil {
         CloseableHttpResponse response = null;
 
         try {
-            StringEntity postJson = new StringEntity(json, ContentType.APPLICATION_JSON);
+            if (!StringUtils.isEmpty(json)) {
+                StringEntity postJson = new StringEntity(json, ContentType.APPLICATION_JSON);
 
-            httpPost.setEntity(postJson);
-
+                httpPost.setEntity(postJson);
+            }
             response = httpClient.execute(httpPost);
 
             JSONObject jsonObject = JSON.parseObject(EntityUtils.toString(response.getEntity(), "utf-8"));
@@ -76,7 +77,7 @@ public class HttpClientUtil {
     /**
      * get请求
      * 内容类型为json【Content-type：application/json】
-     * */
+     */
     public static JSONObject get(String url, HttpParams params, String cookie, String token) throws IOException {
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()
@@ -117,7 +118,7 @@ public class HttpClientUtil {
     /**
      * post请求
      * 内容类型为表单提交【Content-type：application/x-www-form-urlencoded;charset=UTF-8】
-     * */
+     */
     public static JSONObject post4FormCommit(String url, String param, String cookie, String token) throws IOException {
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()
@@ -133,17 +134,19 @@ public class HttpClientUtil {
         httpPost.setHeader("Accept", "text/plain,*/*;q=0.01");
         httpPost.setHeader("Accept-Encoding", "gzip,deflate");
         httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-        httpPost.setHeader("Host", "120.133.27.48:18080");
-        httpPost.setHeader("Origin", "http://120.133.27.48:18080");
-        httpPost.setHeader("Referer", "http://120.133.27.48:18080/logincenter/wms_workplace");
+        httpPost.setHeader("Host", Constants4WMS.SIT3_WMS_Host.substring(7,Constants4WMS.SIT3_WMS_Host.length()));
+        httpPost.setHeader("Origin", Constants4WMS.SIT3_WMS_Host);
+        httpPost.setHeader("Referer", Constants4WMS.SIT3_WMS_Host+"/logincenter/wms_workplace");
         httpPost.setHeader("User-Agent", "Mozilla/5.0(Macintosh;Intel Mac OS X 10.15;rv:124.0)Gecko/20100101 Firefox/124.0");
         httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
 
         CloseableHttpResponse response = null;
         try {
-            StringEntity postParam = new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED);
+            if (!StringUtils.isEmpty(param)) {
+                StringEntity postParam = new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED);
 
-            httpPost.setEntity(postParam);
+                httpPost.setEntity(postParam);
+            }
             response = httpClient.execute(httpPost);
 
             JSONObject jsonObject = JSON.parseObject(EntityUtils.toString(response.getEntity(), "utf-8"));

@@ -1,18 +1,12 @@
 package com.opr.oders.pojo.yw.result;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.platform.commons.util.StringUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +16,6 @@ import java.util.List;
  */
 @Slf4j
 public class BaseResp implements Serializable {
-    private static final Logger log = LogManager.getLogger(BaseResp.class);
     private String msg;
     private Boolean isSuccess;
 
