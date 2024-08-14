@@ -56,7 +56,7 @@ public class BatchStockServiceImpl implements BatchStockService {
         log.info("queryWmsPhysicalInventory paramJSonStr={}", paramJSonStr);
 
         try {
-            JSONObject jsonObj = HttpClientUtil.post(url, paramJSonStr, Constants4StoreShare.Cookie, Constants4StoreShare.OMS_TOKEN);
+            JSONObject jsonObj = HttpClientUtil.post(url, paramJSonStr, Constants4StoreShare.STORE_SHARE_COOKIE, Constants4StoreShare.STORE_SHARE_TOKEN);
 
             // String bizDataStr = jsonObj.getString("bizData");
             QueryWmsPhysicalInventoryResp wmsPhysicalInventoryResp = QueryWmsPhysicalInventoryResp.jsonObject2Bean(jsonObj, QueryWmsPhysicalInventoryResp.class);

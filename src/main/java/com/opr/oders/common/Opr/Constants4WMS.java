@@ -1,10 +1,28 @@
 package com.opr.oders.common.Opr;
 
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.SocketConfig;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Auther: gina
  * @Date: 2024-04-17
  * @Description:
  */
+@Slf4j
 public class Constants4WMS {
 
     public static final String UAT2_WMS_Host = "http://120.133.27.48:18080";
@@ -12,8 +30,44 @@ public class Constants4WMS {
     //uat2的oms对应wms的sit3环境
     public static final String SIT3_WMS_Host = "http://10.10.228.188:18080";
 
+    //wms 登陆信息
+    public static String WMS_COOKIE = "";
 
+    /**
+     * 库存共享端登陆post请求
+     * 内容类型为json【Content-type：application/json】
+     */
+    public static void loginStoreShare() throws IOException {
+        String url = "http://10.10.228.188:18080/logincenter/WmsLoginAction";
+        Map<String, String> param1 = new HashMap<>();
+        param1.put("username", "mz_wuqiong");
+        param1.put("password", "123wq!!!");
+        param1.put("sourceUrl", "https://stock.uat2-backend.feihe.com/ui/retailforce_common/std?tab=retailforce_oms_pro.page.home_page_stock");
+        String json = JSON.toJSONString(param1);
+        CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .setConnectionTimeToLive(2000, TimeUnit.MILLISECONDS)
+                .setDefaultSocketConfig(SocketConfig.custom().setSoTimeout(2000).build())
+                .build();
 
-    //wms 登陆信息 todo wms登陆接口
-    public static final String Cookie = "w_oid=526b564a5345553d; JSESSIONID=C90DF3D958DA0F5FA4A1FD355F6B3F20; LG00=zh_CN; WMS_WUU01=2E0bAaCf64F3-7239-0934-e21A-b91A8a88-77586156254276741-10UuW_sMw-02E25725A4A988D8807A1F3ACE96BBE4; LC01=vc01-da24cd8c-1654-48bc-802f-a1ce6629d2b4; WMS_WLG01=4d5451344e544d344f544d334e7a6b344d7a51304d7a41744d6a55315a5759344e6d4d744f5459324d7930304e7a49794c5467784e4441744e6d55304f544e68596a49794e7a466b; WMS_WLG11=4d5463784e4467784e7a51794d7a55354d773d3d; WMS_WLG91=4d5463784e4467784e7a51794e5455354d773d3d; WMS_WLG99=4e305932525545345254493352544d7a4e6a4e444f545643524449324d6a42454d6a68444d6a4d7a4e30493d";
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Content-type", "application/json");
+        CloseableHttpResponse response = null;
+
+        try {
+            if (!StringUtils.isEmpty(json)) {
+                StringEntity postJson = new StringEntity(json, ContentType.APPLICATION_JSON);
+                httpPost.setEntity(postJson);
+            }
+            response = httpClient.execute(httpPost);
+            Header[] loginInfos = response.getHeaders("Set-Cookie");
+            String cookie = loginInfos[2].getValue();
+            WMS_COOKIE = cookie.replace(" Domain=uat2-backend.feihe.com; Path=/; HttpOnly", "");
+            log.info("cookie==={}", WMS_COOKIE);
+        } catch (Exception e) {
+            log.error("HttpClientUtil httpPost error {}", e.getMessage(), e);
+        } finally {
+            response.close();
+            httpClient.close();
+        }
+    }
 }

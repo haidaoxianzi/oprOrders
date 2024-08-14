@@ -63,8 +63,8 @@ public class ATest {
 
         //请求报文
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Cookie", Constants4StoreShare.Cookie);
-        headers.add("X-XSRF-TOKEN", Constants4StoreShare.OMS_TOKEN);
+        headers.add("Cookie", Constants4StoreShare.STORE_SHARE_COOKIE);
+        headers.add("X-XSRF-TOKEN", Constants4StoreShare.STORE_SHARE_TOKEN);
         headers.add("Content-type", "application/json");
 
 //        headers.add("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");

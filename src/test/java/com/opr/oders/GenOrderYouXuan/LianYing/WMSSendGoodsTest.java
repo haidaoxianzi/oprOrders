@@ -99,7 +99,7 @@ public class WMSSendGoodsTest {
                 "&warehouseId=SZDS&WND_CUS_MLT=Y&functionId=A3001&fid=A3001&&queryName=HeaderGrid&clsid=a3001_header&method=getHeadersList";
 
         try {
-            JSONObject jsonObject = HttpClientUtil.post4FormCommit(url, null, Constants4WMS.Cookie, null);
+            JSONObject jsonObject = HttpClientUtil.post4FormCommit(url, null, Constants4WMS.WMS_COOKIE, null);
             log.info("jsonObject===={}/n", jsonObject.toJSONString());
 
         } catch (IOException e) {

@@ -130,13 +130,13 @@ public class HttpClientUtil {
         httpPost.setHeader("Cookie", cookie);
         httpPost.setHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
         httpPost.setHeader("Connection", "keep-alive");
-        httpPost.setHeader("Cookie", Constants4WMS.Cookie);
+        httpPost.setHeader("Cookie", Constants4WMS.WMS_COOKIE);
         httpPost.setHeader("Accept", "text/plain,*/*;q=0.01");
         httpPost.setHeader("Accept-Encoding", "gzip,deflate");
         httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-        httpPost.setHeader("Host", Constants4WMS.SIT3_WMS_Host.substring(7,Constants4WMS.SIT3_WMS_Host.length()));
+        httpPost.setHeader("Host", Constants4WMS.SIT3_WMS_Host.substring(7, Constants4WMS.SIT3_WMS_Host.length()));
         httpPost.setHeader("Origin", Constants4WMS.SIT3_WMS_Host);
-        httpPost.setHeader("Referer", Constants4WMS.SIT3_WMS_Host+"/logincenter/wms_workplace");
+        httpPost.setHeader("Referer", Constants4WMS.SIT3_WMS_Host + "/logincenter/wms_workplace");
         httpPost.setHeader("User-Agent", "Mozilla/5.0(Macintosh;Intel Mac OS X 10.15;rv:124.0)Gecko/20100101 Firefox/124.0");
         httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
 

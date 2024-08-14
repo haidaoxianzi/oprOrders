@@ -44,7 +44,7 @@ public class ManalFilterStoreServiceImpl implements ManalFilterStoreService {
                 orderNo + "&lotAtt24=&INV_UOM_QTY=Y&MANUAL_ALLOCATE_DEFAULTQTY=Y&orderNo=" + orderNo + "&queryName=manualAllocationgrid&clsid=a3001_detailRightKey&method=getManualAllocationInfo";
         List<SubWMSGoodsStoreInfo> list = new ArrayList<>();
         try {
-            JSONObject jsonObj = HttpClientUtil.post4FormCommit(manal_filter_store_url, param2, Constants4WMS.Cookie, null);
+            JSONObject jsonObj = HttpClientUtil.post4FormCommit(manal_filter_store_url, param2, Constants4WMS.WMS_COOKIE, null);
             String bizDataStr = jsonObj.getString("bizData");
             list = SubWMSGoodsStoreInfo.jsonArray2Bean2(bizDataStr);
             if (CollectionUtils.isEmpty(list)) {

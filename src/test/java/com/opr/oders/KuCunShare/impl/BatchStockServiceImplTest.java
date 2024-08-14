@@ -75,7 +75,7 @@ class BatchStockServiceImplTest {
         log.info("queryWmsPhysicalInventory paramJSonStr={}", paramJSonStr);
 
         try {
-            JSONObject jsonObj = HttpClientUtil.post(url, paramJSonStr, Constants4StoreShare.Cookie, Constants4StoreShare.OMS_TOKEN);
+            JSONObject jsonObj = HttpClientUtil.post(url, paramJSonStr, Constants4StoreShare.STORE_SHARE_COOKIE, Constants4StoreShare.STORE_SHARE_TOKEN);
 
             // String bizDataStr = jsonObj.getString("bizData");
             QueryWmsPhysicalInventoryResp wmsPhysicalInventoryResp = QueryWmsPhysicalInventoryResp.jsonObject2Bean(jsonObj, QueryWmsPhysicalInventoryResp.class);
@@ -200,8 +200,8 @@ class BatchStockServiceImplTest {
 
 
         HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Cookie", Constants4StoreShare.Cookie);
-        httpPost.setHeader("X-XSRF-TOKEN", Constants4StoreShare.OMS_TOKEN);
+        httpPost.setHeader("Cookie", Constants4StoreShare.STORE_SHARE_COOKIE);
+        httpPost.setHeader("X-XSRF-TOKEN", Constants4StoreShare.STORE_SHARE_TOKEN);
         httpPost.setHeader("Content-type", "application/json");
         CloseableHttpResponse response = null;
 

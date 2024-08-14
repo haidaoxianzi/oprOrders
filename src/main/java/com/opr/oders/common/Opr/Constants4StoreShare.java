@@ -1,19 +1,69 @@
 package com.opr.oders.common.Opr;
 
+import com.alibaba.fastjson.JSON;
+import com.opr.oders.common.httpclient.RestTemplateConfiguration;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Auther: gina
  * @Date: 2024-04-17
  * @Description:库存共享端，常量池
  */
+@Slf4j
 public class Constants4StoreShare {
-
     /**
      * uat2库存共享端域名
-     * */
+     */
     public static final String UAT2_STORE_HOST = "https://stock.uat2-backend.feihe.com";
 
-    public static final String QUERY_WMS_PHYSICAL_INVENTORY ="/api/erp_wms/queryWmsPhysicalInventory";
-    //库存共享端 登陆信息 todo 库存共享端登陆接口
-    public static final String   OMS_TOKEN="cfd2c5cb-9832-4fa7-87ca-03aac6c2b72e";
-    public static final String   Cookie="isg=BNjYerfFCpxr1SSa8MRWu5ghqgBqwTxLg7j6exLJmpPGrXuXudM5233L5WWdpvQj; cna=fSAsHbNK2DsCAWomJ8bHpwnE; tfstk=f_mjYuOnRfnzY2hCOrpzVc9f4hEalftFBOwtKAIVBoEY6Rh-sozT3E2Ty7lwnml2nVw_NXuq3cJmP5G-NSQquoUOfvcs3lJg0PFsT4m4gxkq1VN-IGoZfAj_BAhMn5JDUxD0jldeTctEnxf3l-Vxc-QR2Y21XsUKGbBYjldeaH-EnxqiTj3vvFMJFRy1HZhTHzU8ZJbTXSUOwaeLw5ETXfERwRyfXiUOkuUJGLIbUKNohCSYsrp2CXkYNM6o48dgOHVPXhn8h6PKHNjOX0wbockDYGIYXqHqNyuXOigmHjgLJmKWefgEi24sXIsQwm0xJon6OgycYWOyjN67-Ge5oL95SNrB_wYNJwxDNreuUCJWFwkgk827EL95SN4YE8yvFL_EI; sensorsdata2015…8b8e51%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%2218bccb588b7cfb-0eb2f44563f11c8-41272c3d-1296000-18bccb588b8e51%22%7D; xlly_s=1; CZ-SESSION-PORTAL=MDRiY2MyYzQtOTBkZi00MDBlLTg5ZDEtM2I5MmZjZGY3NWIz; XSRF-TOKEN=cfd2c5cb-9832-4fa7-87ca-03aac6c2b72e";
+    public static final String QUERY_WMS_PHYSICAL_INVENTORY = "/api/erp_wms/queryWmsPhysicalInventory";
+    //库存共享端 登陆信息
+    public static String STORE_SHARE_TOKEN;
+    public static String STORE_SHARE_COOKIE;
+
+    /**
+     * 库存共享端登陆post请求
+     * 内容类型为json【Content-type：application/json】
+     */
+    public static void loginStoreShare() throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        RestTemplate restTemplate = new RestTemplate(RestTemplateConfiguration.generateHttpRequestFactory());
+        String url = "https://stock.uat2-backend.feihe.com/login/doLogin";
+        Map<String, String> param1 = new HashMap<>();
+        param1.put("username", "mz_wuqiong");
+        param1.put("password", "123wq!!!");
+        param1.put("sourceUrl", "https://stock.uat2-backend.feihe.com/ui/retailforce_common/std?tab=retailforce_oms_pro.page.home_page_stock");
+        // 发送JSON格式的POST请求
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String json = JSON.toJSONString(param1);
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, request, String.class);
+
+        // 获取响应数据
+        HttpStatus status = responseEntity.getStatusCode();
+        String responseBody = responseEntity.getBody();
+        HttpHeaders resHeader = responseEntity.getHeaders();
+        List<String> list = resHeader.get("Set-Cookie");
+        String token = list.get(1);//1 = "XSRF-TOKEN=f2eb9460-5064-46a9-9ca0-7dd4846a21b5; Path=/; Secure"
+        String cookie = list.get(2);//2 = "CZ-SESSION-PORTAL=ZTlmMzgwZWYtMmRjMC00OGFmLThlM2YtNjk4MzE2NjZiOTQw; Domain=uat2-backend.feihe.com; Path=/; Secure; HttpOnly"
+
+        token = token.replace("XSRF-TOKEN=", "");
+        token = token.replace("; Path=/", "");
+        cookie.replace(" Domain=uat2-backend.feihe.com; Path=/", "");
+        cookie = String.format("%s", token, cookie);
+        STORE_SHARE_TOKEN = token;
+        STORE_SHARE_COOKIE = cookie;
+        log.info("token===={}", token);
+        log.info("cookie===={}", cookie);
+    }
 }

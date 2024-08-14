@@ -42,7 +42,7 @@ public class SendGoodsOrderRelationsServiceImpl implements SendGoodsOrderRelatio
                 //仓库 SZDS == 苏州商务仓 ，以后可能会成为变量
                 "&warehouseId=" + warehouseId + "&WND_CUS_MLT=Y&functionId=A3001&fid=A3001&&queryName=HeaderGrid&clsid=a3001_header&method=getHeadersList";
         try {
-            JSONObject jsonObj = HttpClientUtil.post4FormCommit(url, param, Constants4WMS.Cookie, null);
+            JSONObject jsonObj = HttpClientUtil.post4FormCommit(url, param, Constants4WMS.WMS_COOKIE, null);
             OutOrderListResp outOrderListResp = JSON.toJavaObject(jsonObj, OutOrderListResp.class);
             if (outOrderListResp.isOK() && !StringUtils.isEmpty(outOrderListResp.getBizData())) {
                 List<SubOrderSendGoods> orderSendGoods = SubOrderSendGoods.jsonArray2Bean(outOrderListResp.getBizData());
@@ -66,7 +66,7 @@ public class SendGoodsOrderRelationsServiceImpl implements SendGoodsOrderRelatio
 
         List<SubOutOrderMingXiDetail> outOrderMingXiDetailList = new ArrayList<>();
         try {
-            JSONObject jsonObj = HttpClientUtil.post4FormCommit(getDetailsListUrl, detailsListParam, Constants4WMS.Cookie, null);
+            JSONObject jsonObj = HttpClientUtil.post4FormCommit(getDetailsListUrl, detailsListParam, Constants4WMS.WMS_COOKIE, null);
             OutOrderMingXiListResp outOrderMingXiListResp = JSON.toJavaObject(jsonObj, OutOrderMingXiListResp.class);
 
             if (outOrderMingXiListResp.getOK() && !StringUtils.isEmpty(outOrderMingXiListResp.getBizData())) {
@@ -102,7 +102,7 @@ public class SendGoodsOrderRelationsServiceImpl implements SendGoodsOrderRelatio
 
             try {
                 //调用接口【点击分配明细】，解析返回值
-                JSONObject jsonObj = HttpClientUtil.post4FormCommit(addDistributionDetailUrl, param, Constants4WMS.Cookie, null);
+                JSONObject jsonObj = HttpClientUtil.post4FormCommit(addDistributionDetailUrl, param, Constants4WMS.WMS_COOKIE, null);
                 AddDistributionDetailResp addDistributionDetailResp = JSON.toJavaObject(jsonObj, AddDistributionDetailResp.class);
                 return addDistributionDetailResp.isOK();
             } catch (IOException e) {
@@ -135,7 +135,7 @@ public class SendGoodsOrderRelationsServiceImpl implements SendGoodsOrderRelatio
 
         try {
             //调用接口【点击分配明细】，解析返回值
-            JSONObject jsonObj = HttpClientUtil.post4FormCommit(addDistributionDetailUrl, param, Constants4WMS.Cookie, null);
+            JSONObject jsonObj = HttpClientUtil.post4FormCommit(addDistributionDetailUrl, param, Constants4WMS.WMS_COOKIE, null);
             AddDistributionDetailResp addDistributionDetailResp = JSON.toJavaObject(jsonObj, AddDistributionDetailResp.class);
             return addDistributionDetailResp.isOK();
         } catch (IOException e) {
